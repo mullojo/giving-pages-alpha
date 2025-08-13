@@ -5,7 +5,8 @@ const App = {
   template: `
     <div>
       <div v-if="loading">Loading...</div>
-      <div v-else-if="data.error">{{ data.error }}</div>
+      <div v-else-if="data && data.error">{{ data.error }}</div>
+      <div v-else-if="!data">No handle specified. Please select a handle in the URL.</div>
       <pre v-else>{{ data }}</pre>
     </div>
   `,
@@ -14,15 +15,21 @@ const App = {
     const loading = ref(true);
 
     const getHandleFromHash = () => {
-      // Remove leading # or #/ from URL hash
       const hash = window.location.hash.replace(/^#\/?/, "");
-      return hash || "icecreamsongs"; // default handle
+      return hash || null; // null if no handle
     };
 
     const fetchData = async () => {
       loading.value = true;
+
       const handle = getHandleFromHash();
       console.log("Fetching handle:", handle);
+
+      if (!handle) {
+        data.value = null;
+        loading.value = false;
+        return; // do not fetch
+      }
 
       try {
         const res = await fetch(
@@ -40,7 +47,6 @@ const App = {
 
     onMounted(() => {
       fetchData();
-
       // Listen to hash changes for live updates
       window.addEventListener("hashchange", fetchData);
     });
