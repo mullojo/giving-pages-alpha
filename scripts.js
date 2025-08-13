@@ -1,23 +1,28 @@
-import {
-  createApp,
-  ref,
-  onMounted
-} from "https://esm.sh/vue@3/dist/vue.esm-browser.prod.js";
-import { createRouter, createWebHashHistory, useRoute } from "https://esm.sh/vue-router@4/dist/vue-router.esm-browser.prod.js";
+import { createApp, ref, onMounted } from "https://esm.sh/vue@3/dist/vue.esm-browser.prod.js";
 import JSON5 from "https://esm.sh/json5";
 
-const PersonView = {
+const App = {
   template: `
-    <div v-if="loading">Loading...</div>
-    <pre v-else>{{ data }}</pre>
+    <div>
+      <div v-if="loading">Loading...</div>
+      <div v-else-if="data.error">{{ data.error }}</div>
+      <pre v-else>{{ data }}</pre>
+    </div>
   `,
   setup() {
-    const route = useRoute();
     const data = ref(null);
     const loading = ref(true);
 
-    onMounted(async () => {
-      const handle = route.params.handle || "icecreamsongs";
+    const getHandleFromHash = () => {
+      // Remove leading # or #/ from URL hash
+      const hash = window.location.hash.replace(/^#\/?/, "");
+      return hash || "icecreamsongs"; // default handle
+    };
+
+    const fetchData = async () => {
+      loading.value = true;
+      const handle = getHandleFromHash();
+      console.log("Fetching handle:", handle);
 
       try {
         const res = await fetch(
@@ -26,29 +31,22 @@ const PersonView = {
         const text = await res.text();
         data.value = JSON5.parse(text);
       } catch (err) {
+        console.error(err);
         data.value = { error: `Could not fetch data for "${handle}"` };
       }
 
       loading.value = false;
+    };
+
+    onMounted(() => {
+      fetchData();
+
+      // Listen to hash changes for live updates
+      window.addEventListener("hashchange", fetchData);
     });
 
     return { data, loading };
   }
 };
 
-const routes = [
-  { path: "/:handle", component: PersonView },
-  { path: "/", redirect: "/icecreamsongs" }
-];
-
-// Use hash history instead of web history
-const router = createRouter({
-  history: createWebHashHistory(),
-  routes
-});
-
-const app = createApp({});
-app.use(router);
-app.mount("#app");
-
-console.log(window.location.href);
+createApp(App).mount("#app");
