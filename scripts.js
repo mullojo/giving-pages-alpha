@@ -125,8 +125,19 @@ const app = {
                         let type, image;
 
                         if (isWebKit) {
-                            type = "canvas";
-                            image = false;
+                            //type = "canvas";
+                            //image = false;
+
+                            type = "svg";
+                            const icon = await loadIcon(service.icon);
+                            const css = getIconCSS(icon, { color: "white" });
+                            const regex =
+                                /background-image:\s*url\(['"](data:image\/svg\+xml,.*?)['"]\);/;
+                            const match = css.match(regex);
+                            const dataImageUrl = match[1].trim();
+                            image = dataImageUrl;
+
+
                         } else {
                             type = "svg";
                             const icon = await loadIcon(service.icon);
