@@ -1,60 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-     <!-- Main app script -->
-  <script type="module" src="./scripts.js"></script>
+    <!-- Main app script -->
+    <script type="module" src="./scripts.js"></script>
 </head>
 
-<div id="app" v-cloak class="min-h-dvh bg-gradient-to-br from-white to-slate-100 flex flex-col items-center justify-center px-4 py-4">
+<body>
 
-  <!-- Profile Section -->
-  <div class="flex flex-col items-center mb-4">
-    <img :src="profileImage" alt="Profile" class="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-white" />
-    <h1 class="mt-4 text-xl font-bold text-gray-800">{{fullName}}</h1>
-    <p class="text-gray-500">{{handle}}</p>
-  </div>
+    <div id="app" v-cloak
+        class="min-h-dvh bg-gradient-to-br from-white to-slate-100 flex flex-col items-center justify-center px-4 py-4">
 
-  <div class="perspective w-full max-w-md h-[300px] flex items-center justify-center">
-    <div class="cube relative w-[250px] h-[250px] transition-transform duration-700 ease-in-out" :style="{ transform: currentRotation }">
+        <!-- Profile Section -->
+        <div class="flex flex-col items-center mb-4">
+            <img :src="profileImage" alt="Profile"
+                class="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-white" />
+            <h1 class="mt-4 text-xl font-bold text-gray-800">{{fullName}}</h1>
+            <p class="text-gray-500">{{handle}}</p>
+        </div>
 
-      <div v-for="(service, index) in services" :key="service.name" class="cube-face" :class="faceNames[index]" :style="{ backgroundColor: service.color }">
+        <div class="perspective w-full max-w-md h-[300px] flex items-center justify-center">
+            <div class="cube relative w-[250px] h-[250px] transition-transform duration-700 ease-in-out"
+                :style="{ transform: currentRotation }">
 
-        <h2 class="text-lg font-bold mb-0">{{ service.name }}</h2>
-        <div :ref="el => qrRefs[index] = el" class="mb-0"></div>
+                <div v-for="(service, index) in services" :key="service.name" class="cube-face"
+                    :class="faceNames[index]" :style="{ backgroundColor: service.color }">
 
-        <template v-if="service.address">
-          <div class="flex flex-col items-center">
-            <p class="text-xs font-mono mb-1">
-              {{ service.address.slice(0, 10) }}...{{ service.address.slice(-8) }}
-            </p>
-            <button @click="copy(service.address)" class="text-xs mt-1 px-2 py-1 rounded bg-white/20 hover:bg-white/30 transition">
-              Copy Address
+                    <h2 class="text-lg font-bold mb-0">{{ service.name }}</h2>
+                    <div :ref="el => qrRefs[index] = el" class="mb-0"></div>
+
+                    <template v-if="service.address">
+                        <div class="flex flex-col items-center">
+                            <p class="text-xs font-mono mb-1">
+                                {{ service.address.slice(0, 10) }}...{{ service.address.slice(-8) }}
+                            </p>
+                            <button @click="copy(service.address)"
+                                class="text-xs mt-1 px-2 py-1 rounded bg-white/20 hover:bg-white/30 transition">
+                                Copy Address
+                            </button>
+                        </div>
+                    </template>
+
+                    <template v-else>
+                        <p class="text-sm break-all">{{ service.cashtag || service.handle }}</p>
+                    </template>
+
+                    <a v-if="service.link" :href="service.link" target="_blank"
+                        class="text-xs shadow mt-1 px-2 py-1 rounded bg-white/30 hover:bg-white/40 transition">
+                        Give in App
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="mt-10 flex flex-wrap justify-center gap-2">
+            <button v-for="(service, index) in services" :key="service.name" @click="rotate(index)"
+                class="text-white px-3 py-1 rounded text-sm font-medium" :style="{ backgroundColor: service.color }">
+                {{ service.name }}
             </button>
-          </div>
-        </template>
-
-        <template v-else>
-          <p class="text-sm break-all">{{ service.cashtag || service.handle }}</p>
-        </template>
-
-        <a v-if="service.link" :href="service.link" target="_blank" class="text-xs shadow mt-1 px-2 py-1 rounded bg-white/30 hover:bg-white/40 transition">
-          Give in App
-        </a>
-
-      </div>
-
+        </div>
     </div>
-  </div>
 
-  <div class="mt-10 flex flex-wrap justify-center gap-2">
-    <button v-for="(service, index) in services" :key="service.name" @click="rotate(index)" class="text-white px-3 py-1 rounded text-sm font-medium" :style="{ backgroundColor: service.color }">
-      {{ service.name }}
-    </button>
-  </div>
-</div>
+</body>
 
 </html>
