@@ -144,7 +144,7 @@ const app = {
                             cornersSquareOptions: { type: "dot" },
                             cornersDotOptions: { type: "dot" },
                             backgroundOptions: { color: null },
-                            imageOptions: { crossOrgin: "anonymous" },
+                            imageOptions: { crossOrigin: "anonymous" },
                         });
 
                         qr.append(qrRefs[i]);
