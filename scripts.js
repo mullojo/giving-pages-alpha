@@ -3,6 +3,7 @@ import {
     ref,
     reactive,
     onMounted,
+    nextTick
 } from "https://esm.sh/vue@3/dist/vue.esm-browser.prod.js";
 
 import JSON5 from "https://esm.sh/json5";
@@ -114,8 +115,11 @@ const app = {
 
                 services.value = tempServices;
 
+                await nextTick(); // make sure DOM + refs are ready
+
                 // Generate QRs
                 for (let i = 0; i < services.value.length; i++) {
+                    if (!qrRefs[i]) continue; // just in case
                     const service = services.value[i];
                     try {
                         let type, image;
@@ -152,6 +156,7 @@ const app = {
                         console.error(`Failed to generate QR for ${service.name}:`, err);
                     }
                 }
+
             } catch (err) {
                 console.error(err);
                 error.value = `Could not fetch data for "${profileHandle}"`;
