@@ -86,7 +86,7 @@ const app = {
                         name: "Cash App",
                         color: "#00d632",
                         icon: "simple-icons:cashapp",
-                        cashtag: data.giving.cashApp,
+                        handle: data.giving.cashApp,
                         qrValue: `https://cash.app/${data.giving.cashApp}`,
                         link: `https://cash.app/${data.giving.cashApp}`,
                     });
