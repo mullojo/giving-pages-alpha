@@ -127,7 +127,6 @@ const app = {
                         if (isWebKit) {
                             type = "canvas";
                             image = false;
-
                         } else {
                             type = "svg";
                             const icon = await loadIcon(service.icon);
@@ -157,7 +156,6 @@ const app = {
                         console.error(`Failed to generate QR for ${service.name}:`, err);
                     }
                 }
-
             } catch (err) {
                 console.error(err);
                 error.value = `Could not fetch data for "${profileHandle}"`;
@@ -166,10 +164,11 @@ const app = {
             loading.value = false;
         };
 
+        // 🚀 Start fetching immediately
+        fetchData();
 
+        // Still listen for hash changes after mount
         onMounted(() => {
-            fetchData();
-            // Watch for hash changes
             window.addEventListener("hashchange", fetchData);
         });
 
