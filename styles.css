@@ -8,6 +8,7 @@
 
 .perspective {
     perspective: 1000px;
+    -webkit-transform-style: preserve-3d; /* Safari/WebKit */
 }
 
 .cube {

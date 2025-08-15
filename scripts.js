@@ -175,6 +175,14 @@ const app = {
         // Still listen for hash changes after mount
         onMounted(() => {
             window.addEventListener("hashchange", fetchData);
+
+            // Run after DOM has rendered
+            nextTick(() => {
+                // Example: rotate to the first service
+                if (services.length > 0) {
+                rotate(0);
+                }
+            });
         });
 
         return {
