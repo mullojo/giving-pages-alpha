@@ -33,7 +33,7 @@
 }
 
 .cube .front {
-    transform: rotateY(0.001deg) translateZ(var(--cube-half));
+    transform: rotateY(0.01deg) translateZ(var(--cube-half));
 }
 
 .cube .back {

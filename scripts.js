@@ -31,14 +31,14 @@ const app = {
 
         const rotate = (index) => {
             const rotations = [
-                "rotateY(0.001deg)", // front
+                "rotateY(0.01deg)", // front
                 "rotateY(-90deg)", // right
                 "rotateY(-180deg)", // back
                 "rotateY(90deg)", // left
                 "rotateX(-90deg)", // top
                 "rotateX(90deg)", // bottom
             ];
-            currentRotation.value = rotations[index] || "rotateY(0.001deg)";
+            currentRotation.value = rotations[index] || "rotateY(0.01deg)";
         };
 
         const copy = (text) => navigator.clipboard.writeText(text);
