@@ -30,8 +30,6 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     backface-visibility: hidden;
 
-    transform: translateZ(0) !important;
-    will-change: transform;
 }
 
 .cube .front {
