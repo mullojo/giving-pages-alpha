@@ -31,7 +31,7 @@ const app = {
 
         const rotate = (index) => {
             const rotations = [
-                "rotateY(0.0001deg)", // front
+                "rotateY(0deg)", // front
                 "rotateY(-90deg)", // right
                 "rotateY(-180deg)", // back
                 "rotateY(90deg)", // left
