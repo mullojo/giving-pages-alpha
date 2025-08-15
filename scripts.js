@@ -52,7 +52,7 @@ const app = {
             loading.value = true;
             error.value = null;
 
-            let profileHandle = getHandleFromHash() || "samuelsingz"; // 👈 default handle here
+            let profileHandle = getHandleFromHash() || "givinghumans"; // 👈 default handle here
             console.log("Fetching handle:", profileHandle);
 
             try {
