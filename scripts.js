@@ -179,9 +179,7 @@ const app = {
             // Run after DOM has rendered
             nextTick(() => {
                 // Example: rotate to the first service
-                if (services.length > 0) {
                 rotate(0);
-                }
             });
         });
 
