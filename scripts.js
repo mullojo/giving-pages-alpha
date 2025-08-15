@@ -52,7 +52,7 @@ const app = {
             loading.value = true;
             error.value = null;
 
-            let profileHandle = getHandleFromHash() || "givinghumans"; // 👈 default handle here
+            let profileHandle = getHandleFromHash() || "samuelsingz"; // 👈 default handle here
             console.log("Fetching handle:", profileHandle);
 
             try {
@@ -116,6 +116,11 @@ const app = {
                 services.value = tempServices;
 
                 await nextTick(); // make sure DOM + refs are ready
+
+                // bug fix attempt for webkit
+                const cube = document.querySelector('.cube');
+                cube.style.willChange = 'transform';
+                cube.style.transform += ' translateZ(0)'; // GPU kick
 
                 // Generate QRs
                 for (let i = 0; i < services.value.length; i++) {
