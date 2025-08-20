@@ -165,6 +165,15 @@ const app = {
                     });
                 }
 
+                if (data.socials.github) {
+                    tempSocials.push({
+                        name: "Github",
+                        icon: "mdi:github",
+                        handle: data.socials.github,
+                        link: `https://github.com/${data.socials.github.replace(/^@/, "")}`,
+                    });
+                }
+
                 if (data.socials.substack) {
                     tempSocials.push({
                         name: "Substack",
