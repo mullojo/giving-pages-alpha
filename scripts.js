@@ -165,6 +165,15 @@ const app = {
                     });
                 }
 
+                if (data.socials.substack) {
+                    tempSocials.push({
+                        name: "Substack",
+                        icon: "simple-icons:substack",
+                        handle: data.socials.substack,
+                        link: `https://${data.socials.substack.replace(/^@/, "")}.substack.com/`,
+                    });
+                }
+
                 if (data.socials.patreon) {
                     tempSocials.push({
                         name: "Patreon",

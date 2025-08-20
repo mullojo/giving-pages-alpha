@@ -32,7 +32,7 @@
         <!-- Profile Section -->
         <div v-show="profileImage" class="flex flex-col items-center">
             <img :src="profileImage" alt="Profile"
-                class="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-white" />
+                class="w-32 h-32 bg-gray-200 rounded-full object-cover shadow-lg border-4 border-white" />
             <h1 class="mt-4 text-xl font-bold text-gray-800">{{fullName}}</h1>
             <p class="text-gray-500">{{handle}}</p>
         </div>
@@ -106,12 +106,12 @@
 
             </div>
             <div v-show="tabIndex === 2">
-
-
+                <p>Authentic Referrals (<strong>Refs</strong>) area.</p>
+                <p>Helping others to make life better!</p>
             </div>
             <div v-show="tabIndex === 3">
-
-                
+                <p>Your main <strong>Comms</strong> channels.</p>
+                <p>Email, Phone, Discord, WhatsApp, etc.</p>
             </div>
         </div>
 
