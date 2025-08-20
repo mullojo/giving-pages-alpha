@@ -10,61 +10,111 @@
     <script type="module" src="./scripts.js"></script>
 </head>
 
-<body>
+<body class="min-h-dvh bg-gradient-to-br from-white to-slate-100">
+    <div id="app" v-cloak class="flex flex-col items-center justify-center px-4 py-4">
 
-    <div id="app" v-cloak
-        class="min-h-dvh bg-gradient-to-br from-white to-slate-100 flex flex-col items-center justify-center px-4 py-4">
+        <!-- Tabs -->
+        <div v-show="tabNames.length > 1" class="relative flex w-full max-w-sm rounded-full bg-gray-100 p-1 mb-5">
+            <!-- Active indicator -->
+            <div class="absolute h-7 rounded-full bg-white shadow transition-all duration-300" :style="{
+          top: '4px',
+          left: `calc(${tabIndex * (100 / tabNames.length)}% + 4px)`,
+          width: `calc(${100 / tabNames.length}% - 8px)`
+        }"></div>
+
+            <button v-for="(tab, i) in tabNames" :key="i" @click="tabIndex = i"
+                class="relative flex-1 z-10 px-1 py-1 text-sm font-medium transition"
+                :class="tabIndex === i ? 'text-gray-900 font-semibold' : 'text-gray-600'">
+                {{ tab }}
+            </button>
+        </div>
 
         <!-- Profile Section -->
-        <div class="flex flex-col items-center mb-4">
+        <div v-show="profileImage" class="flex flex-col items-center">
             <img :src="profileImage" alt="Profile"
                 class="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-white" />
             <h1 class="mt-4 text-xl font-bold text-gray-800">{{fullName}}</h1>
             <p class="text-gray-500">{{handle}}</p>
         </div>
 
-        <div class="perspective w-full max-w-md h-[300px] flex items-center justify-center">
-            <div class="cube relative w-[250px] h-[250px] transition-transform duration-700 ease-in-out"
-                :style="{ transform: currentRotation }">
+        <!-- Tab Content -->
+        <div class="mt-6 text-center text-gray-700 space-y-4">
+            <div v-show="tabIndex === 0">
 
-                <div v-for="(service, index) in services" :key="service.name" class="cube-face"
-                    :class="faceNames[index]" :style="{ backgroundColor: service.color }">
+                <!-- Giving Cube Section -->
+                <div class="perspective w-full max-w-md h-[300px] flex items-center justify-center">
+                    <div class="cube relative w-[250px] h-[250px] transition-transform duration-700 ease-in-out"
+                        :style="{ transform: currentRotation }">
 
-                    <h2 class="text-lg font-bold mb-0">{{ service.name }}</h2>
-                    <div :ref="el => qrRefs[index] = el" class="mb-0"></div>
+                        <div v-for="(service, index) in services" :key="service.name" class="cube-face"
+                            :class="faceNames[index]" :style="{ backgroundColor: service.color }">
 
-                    <template v-if="service.address">
-                        <div class="flex flex-col items-center">
-                            <p class="text-xs font-mono mb-1">
-                                {{ service.address.slice(0, 10) }}...{{ service.address.slice(-8) }}
-                            </p>
-                            <button @click="copy(service.address)"
-                                class="text-xs shadow mt-1 px-2 py-1 rounded bg-white/20 hover:bg-white/30 active:bg-white/40 transition cursor-pointer">
-                                Copy Address
-                            </button>
+                            <h2 class="text-lg font-bold mb-0">{{ service.name }}</h2>
+                            <div :ref="el => qrRefs[index] = el" class="mb-0"></div>
+
+                            <template v-if="service.address">
+                                <div class="flex flex-col items-center">
+                                    <p class="text-xs font-mono mb-1">
+                                        {{ service.address.slice(0, 10) }}...{{ service.address.slice(-8) }}
+                                    </p>
+                                    <button @click="copy(service.address)" class="text-xs
+                           shadow mt-1 px-2 py-1 rounded bg-white/20 
+                           hover:bg-white/30 active:bg-white/40 transition cursor-pointer">
+                                        Copy Address
+                                    </button>
+                                </div>
+                            </template>
+
+                            <template v-else>
+                                <p class="text-sm break-all">{{ service.handle }}</p>
+                            </template>
+
+                            <a v-show="service.link" :href="service.link" target="_blank"
+                                class="text-xs shadow mt-1 px-2 py-1 rounded bg-white/30 hover:bg-white/40 transition">
+                                Give in App
+                            </a>
+
                         </div>
-                    </template>
 
-                    <template v-else>
-                        <p class="text-sm break-all">{{ service.handle }}</p>
-                    </template>
+                    </div>
+                </div>
 
-                    <a v-show="service.link" :href="service.link" target="_blank"
-                        class="text-xs shadow mt-1 px-2 py-1 rounded bg-white/30 hover:bg-white/40 transition">
-                        Give in App
-                    </a>
-
+                <div v-show="services.length > 1" class="mt-10 flex flex-wrap justify-center gap-2">
+                    <button v-for="(service, index) in services" :key="service.name" @click="rotate(index)"
+                        class="text-white px-3 py-1 rounded text-sm font-medium"
+                        :style="{ backgroundColor: service.color }">
+                        {{ service.name }}
+                    </button>
                 </div>
 
             </div>
+
+            <div v-show="tabIndex === 1">
+
+                <!-- Social Links Section -->
+                <div class="mt-2 w-full flex flex-col gap-3">
+                    <a v-for="social in socials" :key="social.name" :href="social.link" target="_blank"
+                        class="flex items-center gap-3 bg-white shadow px-10 py-3 rounded-xl hover:bg-gray-50 active:bg-gray-100 transition">
+                        <iconify-icon :icon="social.icon" class="text-2xl" width="30"></iconify-icon>
+                        <div class="flex flex-col text-left">
+                            <span class="text-sm font-semibold text-gray-800">{{ social.name }}</span>
+                            <span class="text-xs text-gray-500">{{ social.handle }}</span>
+                        </div>
+                    </a>
+                </div>
+
+
+            </div>
+            <div v-show="tabIndex === 2">
+
+
+            </div>
+            <div v-show="tabIndex === 3">
+
+                
+            </div>
         </div>
 
-        <div class="mt-10 flex flex-wrap justify-center gap-2">
-            <button v-for="(service, index) in services" :key="service.name" @click="rotate(index)"
-                class="text-white px-3 py-1 rounded text-sm font-medium" :style="{ backgroundColor: service.color }">
-                {{ service.name }}
-            </button>
-        </div>
     </div>
 
 </body>

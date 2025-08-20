@@ -25,6 +25,11 @@ const app = {
         const fullName = ref("");
         const handle = ref("");
         const services = ref([]);
+        const socials = ref([]);
+
+        const tabIndex = ref(0);
+        const tabNames = ref([]);
+
 
         const loading = ref(true);
         const error = ref(null);
@@ -113,7 +118,87 @@ const app = {
                     });
                 }
 
+                if (tempServices.length > 0) {
+                    tabNames.value.push("Giving");
+                } else {
+                    tabIndex.value = 1;
+                }
+
                 services.value = tempServices;
+
+                // Build socials array dynamically
+                const tempSocials = [];
+
+                if (data.socials.instagram) {
+                    tempSocials.push({
+                        name: "Instagram",
+                        icon: "skill-icons:instagram",
+                        handle: data.socials.instagram,
+                        link: `https://instagram.com/${data.socials.instagram.replace(/^@/, "")}`,
+                    });
+                }
+
+                if (data.socials.tiktok) {
+                    tempSocials.push({
+                        name: "TikTok",
+                        icon: "logos:tiktok-icon",
+                        handle: data.socials.tiktok,
+                        link: `https://tiktok.com/@${data.socials.tiktok.replace(/^@/, "")}`,
+                    });
+                }
+
+                if (data.socials.youtube) {
+                    tempSocials.push({
+                        name: "YouTube",
+                        icon: "logos:youtube-icon",
+                        handle: data.socials.youtube,
+                        link: `https://www.youtube.com/${data.socials.youtube}`,
+                    });
+                }
+
+                if (data.socials.x) {
+                    tempSocials.push({
+                        name: "X",
+                        icon: "devicon:twitter",
+                        handle: data.socials.x,
+                        link: `https://x.com/${data.socials.x.replace(/^@/, "")}`,
+                    });
+                }
+
+                if (data.socials.patreon) {
+                    tempSocials.push({
+                        name: "Patreon",
+                        icon: "mdi:patreon",
+                        handle: data.socials.patreon,
+                        link: `https://www.patreon.com/${data.socials.patreon.replace(/^@/, "")}`,
+                    });
+                }
+
+                if (data.socials.onlyfans) {
+                    tempSocials.push({
+                        name: "OnlyFans",
+                        icon: "simple-icons:onlyfans",
+                        handle: data.socials.onlyfans,
+                        link: `https://onlyfans.com/${data.socials.onlyfans.replace(/^@/, "")}`,
+                    });
+                }
+
+                if (data.socials.fansly) {
+                    tempSocials.push({
+                        name: "Fansly",
+                        icon: "arcticons:fansly",
+                        handle: data.socials.fansly,
+                        link: `https://fansly.com/${data.socials.fansly.replace(/^@/, "")}/posts`,
+                    });
+                }
+
+
+                if (tempSocials.length > 0) {
+                    tabNames.value.push("Socials");
+                }
+
+                socials.value = tempSocials;
+
 
                 await nextTick(); // make sure DOM + refs are ready
 
@@ -185,6 +270,7 @@ const app = {
 
         return {
             services,
+            socials,
             faceNames,
             currentRotation,
             rotate,
@@ -193,6 +279,8 @@ const app = {
             profileImage: profileImageRef,
             fullName,
             handle,
+            tabIndex,
+            tabNames,
             loading,
             error,
         };
