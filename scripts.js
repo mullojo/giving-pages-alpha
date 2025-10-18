@@ -118,6 +118,16 @@ const app = {
                     });
                 }
 
+                if (data.giving.revolut) {
+                    tempServices.push({
+                        name: "Revolut",
+                        color: "#000000",
+                        icon: "simple-icons:revolut",
+                        qrValue: `https://revolut.me/${data.giving.revolut}`,
+                        link: `https://revolut.me/${data.giving.revolut}`,
+                    });
+                }
+
                 if (tempServices.length > 0) {
                     tabNames.value.push("Giving");
                 } else {
